@@ -123,7 +123,8 @@ class BuildExt(build_ext):
           no_arch_flag=False
           break
     if no_arch_flag:
-        c_opts['unix'].append('-march=native')
+        # c_opts['unix'].append('-march=native')
+        c_opts['unix'].append('-mcpu=apple-a14')
     link_opts = {
         'unix': [],
         'msvc': [],
