@@ -1,4 +1,5 @@
 import os
+import platform
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
 import sys
@@ -123,14 +124,15 @@ class BuildExt(build_ext):
           no_arch_flag=False
           break
     if no_arch_flag:
-        # c_opts['unix'].append('-march=native')
-        c_opts['unix'].append('-mcpu=apple-a14')
+        c_opts['unix'].append('-march=native')
     link_opts = {
         'unix': [],
         'msvc': [],
     }
 
     if sys.platform == 'darwin':
+        if platform.processor() == 'arm64':
+            c_opts['unix'].remove('-march=native')
         c_opts['unix'] += ['-stdlib=libc++', '-mmacosx-version-min=10.7']
         link_opts['unix'] += ['-stdlib=libc++', '-mmacosx-version-min=10.7']
     else:
