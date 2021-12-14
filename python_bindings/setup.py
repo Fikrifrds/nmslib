@@ -11,7 +11,7 @@ __version__ = '2.1.1'
 if sys.platform.startswith("win") and struct.calcsize("P") * 8 == 32:
     raise RuntimeError("Windows 32-bit is not supported.")
 
-dep_list = ['pybind11<2.6.2', 'psutil']
+dep_list = ['pybind11>=2.2.3', 'psutil']
 dep_list.append("numpy>=1.10.0,<1.17 ; python_version=='2.7'")
 dep_list.append("numpy>=1.10.0 ; python_version>='3.5'")
 
@@ -124,7 +124,8 @@ class BuildExt(build_ext):
           no_arch_flag=False
           break
     if no_arch_flag:
-        c_opts['unix'].append('-march=native')
+        # c_opts['unix'].append('-march=native')
+        c_opts['unix'].append('-mcpu=apple-a14')
     link_opts = {
         'unix': [],
         'msvc': [],
